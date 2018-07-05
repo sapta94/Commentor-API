@@ -110,10 +110,13 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         // Get comment
-        $article = Comment::findOrFail($id);
+        $article = 
+        DB::delete('delete from comments where commentID = ?', [$id]);
+        
+        
 
-        if($article->delete()) {
-            return new CommentResource($article);
+        if($article) {
+            return  response()->json(['response' => 'success','data'=>$article]);
         }    
     }
 }

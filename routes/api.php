@@ -38,3 +38,7 @@ Route::get('comment', 'CommentsController@index');
 // Update Comments
 Route::put('comment', 'CommentsController@update');
 
+
+// Delete article
+Route::delete('comment/{id}', 'CommentsController@destroy');
+

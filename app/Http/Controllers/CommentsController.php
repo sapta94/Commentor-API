@@ -64,7 +64,7 @@ class CommentsController extends Controller
             $query="update comments set upvotes=upvotes+1 where commentID=?";
         }
         else{
-            $query="update comments set upvotes=upvotes+1 where commentID=?";
+            $query="update comments set downvotes=downvotes+1 where commentID=?";
         }
         $comments =  DB::update($query,[$commentID]);
 
@@ -109,6 +109,11 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Get comment
+        $article = Comment::findOrFail($id);
+
+        if($article->delete()) {
+            return new CommentResource($article);
+        }    
     }
 }

@@ -26,4 +26,15 @@ Route::post('users/login', 'UserController@store');
 // Register User
 Route::post('users/register', 'UserController@register');
 
+// Create Comment
+Route::post('comment', 'CommentsController@store');
+
+// Get Comment
+Route::get('comment/{id}', 'CommentsController@show');
+
+// Get all Comments
+Route::get('comment', 'CommentsController@index');
+
+// Update Comments
+Route::put('comment', 'CommentsController@update');
 

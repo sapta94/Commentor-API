@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests;
+use App\Comment;
+use App\Http\Resources\Comment as CommentResource;
 
 class CommentsController extends Controller
 {
@@ -13,7 +18,12 @@ class CommentsController extends Controller
      */
     public function index()
     {
-        //
+        $comments =  DB::select('select cm.*,um.firstname,um.Lastname from comments cm inner join users um on cm.userID=um.id');
+        if($comments)
+            return response()->json(['response' => 'success','data'=>$comments]);
+        else
+            return response()->json(['response' => 'fail']);
+
     }
 
     /**
@@ -34,7 +44,45 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article =  new Comment;
+
+        $article->content = $request->input('content');
+        $article->userID = $request->input('userID');
+
+        if($article->save()) {
+            return new CommentResource($article);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        $type=$request->input('type');
+        $commentID=$request->input('commentID');
+        $userID=$request->input('userID');
+
+        if($type=='upvote'){
+            $query="update comments set upvotes=upvotes+1 where commentID=?";
+        }
+        else{
+            $query="update comments set upvotes=upvotes+1 where commentID=?";
+        }
+        $comments =  DB::update($query,[$commentID]);
+
+        if($comments){
+            $vote = 
+            DB::insert('insert into votes (commentID, userID, type) values (?, ?, ?)', [$commentID,$userID ,$type]);
+            if($vote){
+                return response()->json(['response' => 'success','data'=>$comments]);
+            }
+            else{
+                return response()->json(['response' => 'fail']);
+            }
+        }
+            
+        else
+            return response()->json(['response' => 'fail from update','data'=>$comments]);
+
+
     }
 
     /**
@@ -45,10 +93,13 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $comments =  DB::select('select cm.*,um.firstname,um.Lastname from comments cm inner join users um on cm.userID=um.id where cm.userID = ?', [$id]);
+        if($comments)
+            return response()->json(['response' => 'success','data'=>$comments]);
+        else
+            return response()->json(['response' => 'fail']);
 
-    
+    }
 
     /**
      * Remove the specified resource from storage.

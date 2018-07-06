@@ -72,6 +72,8 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
              //Add you routes here, for example:
                 Route::get('comment', 'CommentsController@index');
+                Route::post('users/register', 'UserController@register');
+                Route::post('users/login', 'UserController@store');
         });
     }
 }

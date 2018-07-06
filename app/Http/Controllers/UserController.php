@@ -49,13 +49,16 @@ class UserController extends Controller
         $users =  DB::select('select * from users where email = ?', [$email]);
 
         $isPresent=0;
+        $userID=null;
         foreach ($users as $user) {
             if(Hash::check($password,$user->password)){
                 $isPresent=1;
+                $userID=$user->id;
             }
         }
 
         if($isPresent==1){
+            //$request->session()->put('userID', $userID);
             return response()->json(['response' => 'success','data'=>$users]);
         }
         else{
@@ -74,6 +77,7 @@ class UserController extends Controller
         $article->email = $request->input('email');
         $article->password = bcrypt($request->input('password'));
 
+        echo $article;
         if($article->save()) {
             return new UserResource($article);
         }

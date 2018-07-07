@@ -74,6 +74,11 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('comment', 'CommentsController@index');
                 Route::post('users/register', 'UserController@register');
                 Route::post('users/login', 'UserController@store');
+                Route::get('current/user', 'UserController@fetch');
+                //Logout
+                Route::get('/logout','UserController@logout');
+                Route::post('comment', 'CommentsController@store');
+                Route::post('comment/update', 'CommentsController@update');
         });
     }
 }

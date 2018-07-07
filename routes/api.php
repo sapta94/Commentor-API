@@ -23,11 +23,14 @@ Route::get('users', 'UserController@index');
 // Login User
 Route::post('users/login', 'UserController@store');
 
+// Current User
+Route::get('current/user', 'UserController@fetch');
+
 // Register User
 Route::post('users/register', 'UserController@register');
 
 // Create Comment
-Route::post('comment', 'CommentsController@store');
+Route::post('insert/comment', 'CommentsController@store');
 
 // Get Comment
 Route::get('comment/{id}', 'CommentsController@show');
@@ -36,9 +39,12 @@ Route::get('comment/{id}', 'CommentsController@show');
 Route::get('comment', 'CommentsController@index');
 
 // Update Comments
-Route::put('comment', 'CommentsController@update');
+Route::post('comment/update', 'CommentsController@update');
 
 
 // Delete article
 Route::delete('comment/{id}', 'CommentsController@destroy');
+
+//Logout
+Route::get('/logout','UserController@logout');
 

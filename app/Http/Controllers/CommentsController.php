@@ -45,13 +45,25 @@ class CommentsController extends Controller
     public function store(Request $request)
     {
         $article =  new Comment;
+        //$userID = session('user');
 
         $article->content = $request->input('content');
         $article->userID = $request->input('userID');
-
+        
         if($article->save()) {
             return new CommentResource($article);
         }
+    }
+
+    public function addcomment(Request $request){
+
+        // $userID = session('user');
+        // $content = $request->input('content');
+
+        // $result=
+        // DB::insert('insert into comments (content, userID) values (?, ?)', [$article, 'Dayle']);
+        
+        
     }
 
     public function update(Request $request)

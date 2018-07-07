@@ -58,8 +58,8 @@ class UserController extends Controller
         }
 
         if($isPresent==1){
-            //$request->session()->put('userID', $userID);
-            return response()->json(['response' => 'success','data'=>$users]);
+            session(['user'=>$users]);
+            return response()->json(['response' => 'success','data'=>$users,'sessionID'=>session('user')]);
         }
         else{
             return response()->json(['response' => 'fail']);
@@ -92,6 +92,21 @@ class UserController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function fetch(){
+        return  response()->json(['response' => session('user')]);
+    }
+
+    public function logout(){
+        session()->flush();
+
+        if(session()->has('users')){
+            return  response()->json(['message' => 'failed']);
+        }
+        else{
+            return  response()->json(['message' => 'success']);
+        }
     }
 
 }

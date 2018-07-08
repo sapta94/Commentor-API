@@ -84,21 +84,26 @@ class CommentsController extends Controller
         else{
             $query="update comments set downvotes=downvotes+1 where commentID=?";
         }
-        $comments =  DB::update($query,[$commentID]);
+        try{
+            $comments =  DB::update($query,[$commentID]);
 
-        if($comments){
-            $vote = 
-            DB::insert('insert into votes (commentID, userID, type) values (?, ?, ?)', [$commentID,$userID ,$type]);
-            if($vote){
-                return response()->json(['response' => 'success','data'=>$comments]);
+            if($comments){
+                $vote = 
+                DB::insert('insert into votes (commentID, userID, type) values (?, ?, ?)', [$commentID,$userID ,$type]);
+                if($vote){
+                    return response()->json(['response' => 'success','data'=>$comments]);
+                }
+                else{
+                    return response()->json(['response' => 'fail']);
+                }
             }
-            else{
-                return response()->json(['response' => 'fail']);
-            }
+                
+            else
+                return response()->json(['response' => 'fail from update','data'=>$comments]);
         }
-            
-        else
-            return response()->json(['response' => 'fail from update','data'=>$comments]);
+        catch (\Exception $e) {
+            return $e->getMessage();
+        }
 
 
     }

@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // List articles
 Route::get('users', 'UserController@index');
 
+
 // Login User
 Route::post('users/login', 'UserController@store');
 

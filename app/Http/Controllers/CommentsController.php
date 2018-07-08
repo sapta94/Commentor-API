@@ -44,15 +44,21 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        $article =  new Comment;
+        try{
+            $article =  new Comment;
         //$userID = session('user');
 
-        $article->content = $request->input('content');
-        $article->userID = $request->input('userID');
-        
-        if($article->save()) {
-            return new CommentResource($article);
+            $article->content = $request->input('content');
+            $article->userID = $request->input('userID');
+            
+            if($article->save()) {
+                return new CommentResource($article);
+            }
         }
+        catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        
     }
 
     public function addcomment(Request $request){

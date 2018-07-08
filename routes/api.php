@@ -49,3 +49,6 @@ Route::delete('comment/{id}', 'CommentsController@destroy');
 //Logout
 Route::get('/logout','UserController@logout');
 
+//show votes
+Route::get('vote/{id}','CommentsController@showVote');
+

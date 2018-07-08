@@ -119,6 +119,16 @@ class CommentsController extends Controller
 
     }
 
+    public function showVote($id)
+    {
+        $vote =  DB::select('select * from votes where userID = ?', [$id]);
+        if($vote)
+            return response()->json(['response' => 'success','data'=>$vote]);
+        else
+            return response()->json(['response' => 'fail']);
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

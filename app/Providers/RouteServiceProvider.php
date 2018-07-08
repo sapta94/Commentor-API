@@ -80,6 +80,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('/logout','UserController@logout');
                 Route::post('comment', 'CommentsController@store');
                 Route::post('comment/update', 'CommentsController@update');
+                //show votes
+                Route::get('vote/{id}','CommentsController@showVote');
+
         });
     }
 }
